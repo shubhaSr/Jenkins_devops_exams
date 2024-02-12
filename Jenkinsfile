@@ -1,20 +1,40 @@
 pipeline {
-environment { // Declaration of environment variables
-DOCKER_ID = "cast" // replace this with your docker-id
-DOCKER_IMAGE = "cast-service"
-DOCKER_TAG = "v.1.0" // we will tag our images with the current build in order to increment the value by 1 with each new build
-}
-agent any // Jenkins will be able to select all available agents
-stages {
-        stage('Docker Build'){ // docker build image stage
+    agent any
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('jenkins-dockerhub')
+    }
+
+    stages {
+        stage("Git Clone") {
             steps {
-                script {
-                sh '''
-                 docker rm -f jenkins
-                 cd cast-service
-                 docker build -t $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG .
-                sleep 6
-                '''
-                }
+                git branch: 'main', credentialsId: 'Jenkins', url: 'https://github.com/shubhaSr/Jenkins_devops_exams.git'
+            }           
+        } 
+
+        stage('Build') {
+            steps {
+                sh 'docker build -t aftab70/custom_apache:${BUILD_NUMBER} ./cast-service/'
             }
         }
+
+        stage('Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+
+        stage('Push') {
+            steps {
+                sh 'docker push aftab70/custom_apache:${BUILD_NUMBER}'
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker logout'
+        }
+    }
+}
+
