@@ -10,7 +10,7 @@ pipeline {
     stages {
          stage("Git Clone") {
             steps {
-                git branch: 'main', credentialsId: 'Jenkins', url: 'https://github.com/shubhaSr/Jenkins_devops_exams.git'
+                git branch: 'main', url: 'https://github.com/shubhaSr/Jenkins_devops_exams.git'
             }           
         }
     }
