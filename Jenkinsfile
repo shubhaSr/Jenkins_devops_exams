@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Correct credential ID for Docker Hub credentials
         DOCKERHUB_CREDENTIALS = credentials('5e2c6607-bcbf-4e48-9079-f0b2e6f415ce')
-        DOCKER_IMAGE = 'your-dockerhub-username/your-image-name'
+        DOCKER_IMAGE = 'shubha1997/test'
     }
 
     stages {
