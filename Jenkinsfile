@@ -8,12 +8,10 @@ pipeline {
     }
 
     stages {
-        stage('Build Docker Image') {
+         stage("Git Clone") {
             steps {
-                script {
-                    docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}")
-                }
-            }
+                git branch: 'main', credentialsId: 'Jenkins', url: 'https://github.com/shubhaSr/Jenkins_devops_exams.git'
+            }           
         }
     }
 }
