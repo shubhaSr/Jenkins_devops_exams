@@ -14,19 +14,19 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'docker build -t aftab70/custom_apache:${BUILD_NUMBER} ./cast-service/'
+                sh "docker build -t aftab70/custom_apache:${BUILD_NUMBER} ./cast-service/"
             }
         }
 
         stage('Login') {
             steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh "echo \$DOCKERHUB_CREDENTIALS_PSW | docker login -u \$DOCKERHUB_CREDENTIALS_USR --password-stdin"
             }
         }
 
         stage('Push') {
             steps {
-                sh 'docker push aftab70/custom_apache:${BUILD_NUMBER}'
+                sh "docker push aftab70/custom_apache:${BUILD_NUMBER}"
             }
         }
     }
@@ -37,4 +37,3 @@ pipeline {
         }
     }
 }
-
